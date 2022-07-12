@@ -30,12 +30,12 @@ class Enigma:
         """Builds a new Enigma machine.
         """
 
+        self._plugboard = None
         self.plugboard = plugboard
 
     @property
     def plugboard(self) -> Dict[str, str]:
         """Returns current plugboard.
-
         Returns:
             dict: A dictionary representing the current plugboard.  The 
                   dictionary is supposed to have 26 keys, one for each letter of
@@ -47,7 +47,6 @@ class Enigma:
     @plugboard.setter
     def plugboard(self, value: Optional[Union[Dict[str, str], str]] = None) -> None:
         """Sets the plugboard to the specified value.
-
         Args:
             value (dict, str, optional): The new value for the plugboard.  If 
                                          `None` defaults to 
@@ -55,7 +54,6 @@ class Enigma:
                                          a string it is supposed to have a 
                                          length of 26 characters, interpreted as 
                                          a plugboard in alphabetical order. 
-
         Raises:
             ValueError: If either the passed string value is not 26 characters 
                         or the passed dictionary hasn't 26 entries.
