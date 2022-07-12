@@ -26,7 +26,9 @@ class Layer(ABC):
     """
 
     @abstractmethod
-    def __call__(self, value: str, reverse: Optional[bool] = None) -> Optional[str]:
+    def __call__(self,
+                 value: str,
+                 reverse: Optional[bool] = None) -> Optional[str]:
         """Implements propagation through the layer.
 
         Args: 
@@ -39,7 +41,7 @@ class Layer(ABC):
             str: The output character.
         """
 
-        
+
 class Plugboard(Layer):
     """Enigma's plugboard.
 
@@ -50,7 +52,9 @@ class Plugboard(Layer):
 
     _std_front: str = 'zphnmswciytqedoblrfkuvgxja'
 
-    def __init__(self, plugboard: Optional[Union[Dict[str, str], str]] = None) -> None:
+    def __init__(
+            self,
+            plugboard: Optional[Union[Dict[str, str], str]] = None) -> None:
         """Builds a plugboard.
         """
 
@@ -70,7 +74,8 @@ class Plugboard(Layer):
         return self._front
 
     @front.setter
-    def front(self, value: Optional[Union[Dict[str, str], str]] = None) -> None:
+    def front(self,
+              value: Optional[Union[Dict[str, str], str]] = None) -> None:
         """Sets the plugboard to the specified value.
 
         Args:
@@ -92,19 +97,26 @@ class Plugboard(Layer):
 
         if isinstance(value, str):
             if len(value) != len(ascii_lowercase):
-                raise ValueError('Expected {} characters, found {}'.format(len(ascii_lowercase), len(value)))
+                raise ValueError('Expected {} characters, found {}'.format(
+                    len(ascii_lowercase), len(value)))
 
             value = dict(zip(ascii_lowercase, value))
-        
+
         if isinstance(value, dict):
             if len(value.keys()) != len(ascii_lowercase):
-                raise ValueError('Expected {} keys, found {}'.format(len(ascii_lowercase), len(value)))
+                raise ValueError('Expected {} keys, found {}'.format(
+                    len(ascii_lowercase), len(value)))
 
-            if set(value.keys()) != set(ascii_lowercase) or set(value.values()) != set(ascii_lowercase):
-                raise ValueError('Invalid characters found, expected to be a lowercase ascii')
+            if set(value.keys()) != set(ascii_lowercase) or set(
+                    value.values()) != set(ascii_lowercase):
+                raise ValueError(
+                    'Invalid characters found, expected to be a lowercase ascii'
+                )
 
         if not isinstance(value, dict):
-            raise TypeError('Expected dictionary or string, but found {}'.format(type(value)))
+            raise TypeError(
+                'Expected dictionary or string, but found {}'.format(
+                    type(value)))
 
         self._front = value
 
@@ -120,7 +132,9 @@ class Plugboard(Layer):
 
         return self._back
 
-    def __call__(self, value: str, reverse: Optional[bool] = False) -> Optional[str]:
+    def __call__(self,
+                 value: str,
+                 reverse: Optional[bool] = False) -> Optional[str]:
         """Performs a letter encryption.
 
         Args:
@@ -135,8 +149,8 @@ class Plugboard(Layer):
             reverse = False
 
         return self.back.get(value) if reverse else self.front.get(value)
-    
-    
+
+
 class Enigma:
     """Code-implementation of the Enigma Machine.
 
@@ -148,10 +162,12 @@ class Enigma:
                                  layers.
     """
 
-    _std_layers: Tuple[Layer] = (Plugboard(),)
-    _std_order: Tuple[Tuple[int, bool]] = ((0, True),)
+    _std_layers: Tuple[Layer] = (Plugboard(), )
+    _std_order: Tuple[Tuple[int, bool]] = ((0, True), )
 
-    def __init__(self, layers: Optional[Tuple[Layer]] = None, order: Optional[Tuple[Tuple[int, bool]]] = None):
+    def __init__(self,
+                 layers: Optional[Tuple[Layer]] = None,
+                 order: Optional[Tuple[Tuple[int, bool]]] = None):
         """German blacksmiths and engineers are going to build a new Enigma 
         machine.
         """
@@ -192,4 +208,4 @@ class Enigma:
         for i, r in self.order:
             value = self.layers[i](value, r)
 
-        return value 
+        return value
