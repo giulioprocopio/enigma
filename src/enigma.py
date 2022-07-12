@@ -57,6 +57,7 @@ class Enigma:
         Raises:
             ValueError: If either the passed string value is not 26 characters 
                         or the passed dictionary hasn't 26 entries.
+            TypeError: If an value of an invalid type is passed.
         """
 
         if value is None:
